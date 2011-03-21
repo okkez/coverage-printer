@@ -17,16 +17,15 @@ module Coverage
     end
 
     def total_coverage
-      (executed_lines / tolat_covrage.to_f) * 100
+      (lines_of_executed_code / total.to_f) * 100
     end
 
     def code_coverage
-      (executed_lines / lines_of_code) * 100
+      (lines_of_executed_code / lines_of_code.to_f) * 100
     end
 
-    # FIXME more suitable method name
-    def executed_lines
-      counts.select{|count| count > 0 }.size
+    def lines_of_executed_code
+      counts.select{|count| count && count > 0 }.size
     end
   end
 end
