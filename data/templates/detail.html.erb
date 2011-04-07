@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+    <title><%= page_title %></title>
+  </head>
+  <body>
+    <h1><%= project_name %> C0 Coverage Information</h1>
+    <h2><%= page_title %></h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Total Lines</th>
+          <th>Lines of Code</th>
+          <th>Total Coverage</th>
+          <th>Code Coverage</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><%= path %></td>
+          <td><%= statistics.total %></td>
+          <td><%= statistics.lines_of_code %></td>
+          <td><%= statistics.total_coverage %></td>
+          <td><%= statistics.code_coverage %></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Key</h3>
+
+    <div>
+    </div>
+
+    <h3>Coverage Details</h3>
+
+    <table>
+      <tbody>
+        <tr>
+          <td></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>
