@@ -1,4 +1,6 @@
 require 'coverage'
+require 'coverage/statistics'
+require 'erb'
 
 module Coverage
   class HTMLPrinter
