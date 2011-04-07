@@ -17,11 +17,11 @@ module Coverage
     end
 
     def total_coverage
-      (lines_of_executed_code / total.to_f) * 100
+      "%.2f" % [(lines_of_executed_code / total.to_f) * 100]
     end
 
     def code_coverage
-      (lines_of_executed_code / lines_of_code.to_f) * 100
+      "%.2f" % [(lines_of_executed_code / lines_of_code.to_f) * 100]
     end
 
     def lines_of_executed_code

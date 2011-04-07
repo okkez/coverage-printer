@@ -22,11 +22,11 @@ module Coverage
     end
 
     def test_total_coverage
-      assert_equal(30, @statistics.total_coverage)
+      assert_equal("30.00", @statistics.total_coverage)
     end
 
     def test_code_coverage
-      assert_equal(50, @statistics.code_coverage)
+      assert_equal("50.00", @statistics.code_coverage)
     end
   end
 end
