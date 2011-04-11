@@ -31,6 +31,13 @@ module Coverage
           html.puts(erb.result(binding))
         end
       end
+      install_files
+    end
+
+    def install_files
+      [javascripts_directory, stylesheets_directory].zip(%w[js css]) do |dir, ext|
+        FileUtils.install(dir + "coverage.#{ext}", output_directory)
+      end
     end
 
     def html_filename(path)
