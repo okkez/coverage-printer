@@ -7,11 +7,13 @@ module Coverage
   class HTMLPrinter
 
     attr_accessor :output_directory, :project_name
-    attr_reader :base_directory
+    attr_reader :lib_base_directory, :base_directory
 
     def initialize
-      @base_directory = Pathname(__FILE__).dirname.parent.parent
-      @output_directory = Pathname.pwd + "coverage"
+      yield self if block_given?
+      @lib_base_directory = Pathname(__FILE__).dirname.parent.parent
+      @base_directory = Pathname.pwd
+      @output_directory ||=  @base_directory + "coverage"
       FileUtils.mkdir_p(@output_directory)
       @project_name ||= "test"
     end
@@ -45,15 +47,15 @@ module Coverage
     end
 
     def templates_directory
-       base_directory + "data/templates"
+       lib_base_directory + "data/templates"
     end
 
     def javascripts_directory
-      base_directory + "data/javascripts"
+      lib_base_directory + "data/javascripts"
     end
 
     def stylesheets_directory
-      base_directory + "data/stylesheets"
+      lib_base_directory + "data/stylesheets"
     end
 
     class Line
