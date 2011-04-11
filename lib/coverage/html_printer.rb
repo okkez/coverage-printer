@@ -7,8 +7,10 @@ module Coverage
   class HTMLPrinter
 
     attr_accessor :output_directory, :project_name
+    attr_reader :base_directory
 
     def initialize
+      @base_directory = Pathname(__FILE__).dirname.parent.parent
       @output_directory = Pathname.pwd + "coverage"
       FileUtils.mkdir_p(@output_directory)
       @project_name ||= "test"
@@ -24,7 +26,7 @@ module Coverage
           sources << Line.new(index + 1, line, count)
         end
         statistics = Coverage::Statistics.new(path, counts)
-        erb = ERB.new(File.read(template_directory + "detail.html.erb"), nil, '-')
+        erb = ERB.new(File.read(templates_directory + "detail.html.erb"), nil, '-')
         File.open(@output_directory + html_filename(source), "wb+") do |html|
           html.puts(erb.result(binding))
         end
@@ -35,8 +37,16 @@ module Coverage
       path.basename.sub(/\.rb/, "_rb.html")
     end
 
-    def template_directory
-      Pathname(__FILE__).parent.parent.parent + "data/templates"
+    def templates_directory
+       base_directory + "data/templates"
+    end
+
+    def javascripts_directory
+      base_directory + "data/javascripts"
+    end
+
+    def stylesheets_directory
+      base_directory + "data/stylesheets"
     end
 
     class Line
