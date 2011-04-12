@@ -32,6 +32,7 @@ module Coverage
         statistics = Coverage::Statistics.new(path, counts)
         erb = ERB.new(File.read(templates_directory + "detail.html.erb"), nil, '-')
         html_filepath = @output_directory + html_filename(source)
+        erb.filename = html_filepath.to_s
         FileUtils.mkdir_p(html_filepath.dirname)
         File.open(html_filepath, "wb+") do |html|
           html.puts(erb.result(binding))
