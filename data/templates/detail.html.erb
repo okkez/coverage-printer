@@ -2,6 +2,8 @@
 <html lang="ja">
   <head>
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+    <%= stylesheet("reset", erb.filename) %>
+    <%= stylesheet("coverage", erb.filename) %>
     <title><%= page_title %></title>
   </head>
   <body>
@@ -30,13 +32,17 @@
 
     <h3>Key</h3>
 
-    <div>
-      <p>...</p>
+    <div id="key" class="code">
+      <ol>
+        <li class="covered">covered code...</li>
+        <li class="not-code">not code...</li>
+        <li class="uncovered">uncovered code...</li>
+      </ol>
     </div>
 
     <h3>Coverage Details</h3>
 
-    <div>
+    <div id="coverage-details" class="code">
       <ol>
       <%- sources.each do |line| -%>
         <li class="<%= line.class_name%>"><code><%= line.line %></code></li>
