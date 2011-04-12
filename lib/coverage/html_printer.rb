@@ -88,22 +88,9 @@ module Coverage
         when @count.nil?
           'not-code'
         when @count > 0
-          'executed'
+          'covered'
         when @count == 0
-          'unexecuted'
-        else
-          raise "must not happen! count=<#{@count}>"
-        end
-      end
-
-      def color_name
-        case
-        when @count.nil?
-          'grey'
-        when @count > 0
-          'green'
-        when @count == 0
-          'pink'
+          'uncovered'
         else
           raise "must not happen! count=<#{@count}>"
         end
