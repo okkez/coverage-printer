@@ -68,6 +68,18 @@ module Coverage
       lib_base_directory + "data/stylesheets"
     end
 
+    def stylesheet(name, html_filename)
+      css = @output_directory + "#{name}.css"
+      path = css.relative_path_from(Pathname(html_filename).dirname)
+      %Q!<link rel="stylesheet" type="text/css" href="#{path.to_s}"/>!
+    end
+
+    def javascript(name, html_filename)
+      js = @output_directory + "#{name}.js"
+      path = js.relative_path_from(Pathname(html_filename).dirname)
+      %Q!<script src="#{path.to_s}"></script>!
+    end
+
     class Line
       include ERB::Util
 
