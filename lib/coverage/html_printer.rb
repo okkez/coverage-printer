@@ -59,6 +59,7 @@ module Coverage
     end
 
     class Line
+      include ERB::Util
 
       attr_accessor :lineno, :count
 
@@ -70,7 +71,7 @@ module Coverage
 
       def line
         return "&#x200c;\n" if @line.chomp.size == 0
-        @line
+        h(@line).gsub(/ /, '&nbsp;')
       end
 
       def class_name
