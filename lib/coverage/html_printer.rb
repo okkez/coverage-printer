@@ -41,8 +41,11 @@ module Coverage
     end
 
     def install_files
-      [javascripts_directory, stylesheets_directory].zip(%w[js css]) do |dir, ext|
-        FileUtils.install(dir + "coverage.#{ext}", output_directory)
+      stylesheets_directory.each_child do |path|
+        FileUtils.install(path, output_directory)
+      end
+      javascripts_directory.each_child do |path|
+        FileUtils.install(path, output_directory)
       end
     end
 
