@@ -19,8 +19,11 @@ module Coverage
     end
 
     def print(result)
+      target_files = Dir.glob("#{@base_directory}/**/*.rb")
       result.each do |path, counts|
-        next if /test-unit/ =~ path
+        next unless target_files.include?(path)
+        next if Regexp.new("#{@base_directory}/test") =~ path
+        next if Regexp.new("#{@base_directory}/spec") =~ path
         source = Pathname(path)
         page_title = source.basename
         sources = []
