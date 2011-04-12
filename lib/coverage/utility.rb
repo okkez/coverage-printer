@@ -1,5 +1,5 @@
 
 module Coverage
-  class Utility
+  module Utility
   end
 end
