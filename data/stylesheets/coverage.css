@@ -1,5 +1,18 @@
 body{font:13px/1.5 'Helvetica Neue',Arial,'Liberation Sans',FreeSans,sans-serif}a:focus{outline:1px dotted}hr{border:0 #ccc solid;border-top-width:1px;clear:both;height:0}h1{font-size:25px}h2{font-size:23px}h3{font-size:21px}h4{font-size:19px}h5{font-size:17px}h6{font-size:15px}ol{list-style:decimal}ul{list-style:disc}li{margin-left:30px}p,dl,hr,h1,h2,h3,h4,h5,h6,ol,ul,pre,table,address,fieldset{margin-bottom:20px}
 
+table {
+  border: 1px solid #666666;
+  border-collapse: collapse;
+  margin-top: 1em;
+  margin-left: 5%;
+  margin-right: 5%;
+  width: 90%;  
+}
+
+th, td {
+  border: 1px solid #666666;
+}
+
 .covered {
   background-color: #BED2BE;
 }
@@ -16,4 +29,17 @@ div.code {
   margin: 2.5% 5% 5% 2.5%;
 }
 
+div.bar-container {
+  border: 1px solid #ccc;
+  width: 100px;
+  margin: 2px 5px 2px 0;
+  padding: 0;
+  float: right;
+  background: #A92730;
+}
+
+div.bar-container > div {
+  background-color: #649632;
+  height: 12px;
+}
 

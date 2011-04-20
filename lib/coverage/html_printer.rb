@@ -80,6 +80,10 @@ module Coverage
       %Q!<script src="#{path.to_s}"></script>!
     end
 
+    def coverage_bar(coverage)
+      %Q!<div class="bar-container"><div style="width: #{coverage}%"></div></div>#{coverage}%!
+    end
+
     class Line
       include ERB::Util
 

@@ -24,8 +24,8 @@
           <td><%= path %></td>
           <td><%= statistics.total %></td>
           <td><%= statistics.lines_of_code %></td>
-          <td><%= statistics.total_coverage %></td>
-          <td><%= statistics.code_coverage %></td>
+          <td><%= coverage_bar(statistics.total_coverage) %></td>
+          <td><%= coverage_bar(statistics.code_coverage) %></td>
         </tr>
       </tbody>
     </table>
