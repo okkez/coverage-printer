@@ -75,12 +75,9 @@ module Coverage
       result.each do |path, counts|
         next unless target_files.include?(path)
         next if Regexp.new("#{base_directory}/(?:test|spec)") =~ path
-        files << Detail.new(@path_settings, path, counts)
+        files << Detail.new(@path_settings, @project_name, path, counts)
       end
-      # files.each do |file|
-      #   print_detail(file)
-      # end
-      files.each(&:print)
+      files.each(&:print_file)
       print_index(files)
       # index = Index.new(files)
       # index.print
@@ -125,10 +122,11 @@ module Coverage
       include Utility
 
       def_delegators(:@statistics, :total, :lines_of_code)
-      attr_reader :page_title
+      attr_reader :project_name, :page_title
 
-      def initialize(path_settings, path, counts)
+      def initialize(path_settings, project_name, path, counts)
         @path_settings = path_settings
+        @project_name = project_name
         @path = path
         @counts = counts
         @statistics = Coverage::Statistics.new(path, counts)
@@ -140,10 +138,10 @@ module Coverage
         end
       end
 
-      def print
-        erb = ERB.new(template_path, nil, '-')
+      def print_file
+        erb = ERB.new(File.read(template_path), nil, '-')
         path = @path_settings.output_directory + html_filename
-        erb.filename = path
+        erb.filename = path.to_s
         FileUtils.mkdir_p(path.dirname)
         File.open(path, "wb+") do |file|
           file.puts(erb.result(binding))
@@ -162,7 +160,7 @@ module Coverage
       end
 
       def html_filename
-        dir = @source.sub(Regexp.new(@base_directory.to_s), '.').dirname
+        dir = @source.sub(Regexp.new(@path_settings.base_directory.to_s), '.').dirname
         file = @source.basename.sub(/\.rb/, "_rb.html")
         dir + file
       end
@@ -181,6 +179,10 @@ module Coverage
       private
       def template_path
         @path_settings.templates_directory + "detail.html.erb"
+      end
+
+      def output_directory
+        @path_settings.output_directory
       end
     end
 
