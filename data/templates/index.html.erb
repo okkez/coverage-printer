@@ -6,7 +6,6 @@
   </head>
   <body>
     <h1><%= project_name %> C0 Coverage Information</h1>
-    <h2><%= page_title %></h2>
     <table>
       <thead>
         <tr>
@@ -18,19 +17,21 @@
         </tr>
       </thead>
       <tbody>
+        <%- files.each do |file| -%>
         <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td><%= file.label %></td>
+          <td><%= file.total %></td>
+          <td><%= file.lines_of_code %></td>
+          <td><%= file.total_coverage %></td>
+          <td><%= file.code_coverage %></td>
         </tr>
+        <%- end -%>
       </tbody>
       <tfooter>
         <tr>
           <td>Total</td>
-          <td></td>
-          <td></td>
+          <td><%= files.inject(0){|memo, file| memo + file.total } %></td>
+          <td><%= files.inject(0){|memo, file| memo + file.lines_of_code } %></td>
           <td></td>
           <td></td>
         </tr>

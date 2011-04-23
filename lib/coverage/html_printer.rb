@@ -2,6 +2,7 @@ require 'coverage'
 require 'coverage/statistics'
 require 'fileutils'
 require 'erb'
+require 'forwardable'
 
 module Coverage
   class HTMLPrinter
@@ -20,25 +21,36 @@ module Coverage
 
     def print(result)
       target_files = Dir.glob("#{@base_directory}/**/*.rb")
+      statistics_list = []
+      files = []
       result.each do |path, counts|
         next unless target_files.include?(path)
         next if Regexp.new("#{@base_directory}/(?:test|spec)") =~ path
-        source = Pathname(path)
-        page_title = source.basename
-        sources = []
-        source.each_line.with_index.zip(counts) do |(line, index), count|
-          sources << Line.new(index + 1, line, count)
-        end
-        statistics = Coverage::Statistics.new(path, counts)
-        erb = ERB.new(File.read(templates_directory + "detail.html.erb"), nil, '-')
-        html_filepath = @output_directory + html_filename(source)
-        erb.filename = html_filepath.to_s
-        FileUtils.mkdir_p(html_filepath.dirname)
-        File.open(html_filepath, "wb+") do |html|
-          html.puts(erb.result(binding))
-        end
+        file = Source.new(@base_directory, path, counts)
+        files << file
+        print_detail(file)
       end
+      print_index(files)
       install_files
+    end
+
+    def print_detail(file)
+      erb = ERB.new(File.read(templates_directory + "detail.html.erb"), nil, '-')
+      html_filepath = @output_directory + file.html_filename
+      erb.filename = html_filepath.to_s
+      FileUtils.mkdir_p(html_filepath.dirname)
+      File.open(html_filepath, "wb+") do |html|
+        html.puts(erb.result(binding))
+      end
+    end
+
+    def print_index(files)
+      erb = ERB.new(File.read(templates_directory + "index.html.erb"), nil, '-')
+      erb.filename = "index.html"
+      index_path = @output_directory + "index.html"
+      File.open(index_path, "wb+") do |html|
+        html.puts(erb.result(binding))
+      end
     end
 
     def install_files
@@ -48,12 +60,6 @@ module Coverage
       javascripts_directory.each_child do |path|
         FileUtils.install(path, output_directory)
       end
-    end
-
-    def html_filename(path)
-      dir = path.sub(Regexp.new(base_directory.to_s), '.').dirname
-      file = path.basename.sub(/\.rb/, "_rb.html")
-      dir + file
     end
 
     def templates_directory
@@ -80,8 +86,54 @@ module Coverage
       %Q!<script src="#{path.to_s}"></script>!
     end
 
-    def coverage_bar(coverage)
-      %Q!<div class="bar-container"><div style="width: #{coverage}%"></div></div>#{coverage}%!
+    class Source
+      extend Forwardable
+
+      def_delegators(:@statistics, :total, :lines_of_code)
+      attr_reader :page_title
+
+      def initialize(base_directory, path, counts)
+        @base_directory = base_directory
+        @path = path
+        @counts = counts
+        @statistics = Coverage::Statistics.new(path, counts)
+        @source = Pathname(path)
+        @page_title = @source.basename
+        @sources = []
+        @source.each_line.with_index.zip(@counts) do |(line, index), count|
+          @sources << Line.new(index + 1, line, count)
+        end
+      end
+
+      def each_line
+        @sources.each do |line|
+          yield line
+        end
+      end
+
+      # TODO return relative path
+      def label
+        @path
+      end
+
+      def html_filename
+        dir = @source.sub(Regexp.new(@base_directory.to_s), '.').dirname
+        file = @source.basename.sub(/\.rb/, "_rb.html")
+        dir + file
+      end
+
+      def total_coverage
+        coverage_bar(@statistics.total_coverage)
+      end
+
+      def code_coverage
+        coverage_bar(@statistics.code_coverage)
+      end
+
+      private
+      def coverage_bar(coverage)
+        %Q!<div class="bar-container"><div style="width: #{coverage}%"></div></div>#{coverage}%!
+      end
     end
 
     class Line

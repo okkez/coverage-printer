@@ -4,11 +4,11 @@
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
     <%= stylesheet("reset", erb.filename) %>
     <%= stylesheet("coverage", erb.filename) %>
-    <title><%= page_title %></title>
+    <title><%= file.page_title %></title>
   </head>
   <body>
     <h1><%= project_name %> C0 Coverage Information</h1>
-    <h2><%= page_title %></h2>
+    <h2><%= file.page_title %></h2>
     <table>
       <thead>
         <tr>
@@ -21,11 +21,11 @@
       </thead>
       <tbody>
         <tr>
-          <td><%= path %></td>
-          <td><%= statistics.total %></td>
-          <td><%= statistics.lines_of_code %></td>
-          <td><%= coverage_bar(statistics.total_coverage) %></td>
-          <td><%= coverage_bar(statistics.code_coverage) %></td>
+          <td><%= file.label %></td>
+          <td><%= file.total %></td>
+          <td><%= file.lines_of_code %></td>
+          <td><%= file.total_coverage %></td>
+          <td><%= file.code_coverage %></td>
         </tr>
       </tbody>
     </table>
@@ -44,7 +44,7 @@
 
     <div id="coverage-details" class="code">
       <ol>
-      <%- sources.each do |line| -%>
+      <%- file.each_line do |line| -%>
         <li class="<%= line.class_name%>"><code><%= line.line %></code></li>
       <%- end -%>
       </ol>
