@@ -26,7 +26,7 @@ module Coverage
       result.each do |path, counts|
         next unless target_files.include?(path)
         next if Regexp.new("#{@base_directory}/(?:test|spec)") =~ path
-        files << Source.new(@base_directory, path, counts)
+        files << Detail.new(@base_directory, path, counts)
       end
       files.each do |file|
         print_detail(file)
@@ -87,7 +87,7 @@ module Coverage
       %Q!<script src="#{path.to_s}"></script>!
     end
 
-    class Source
+    class Detail
       extend Forwardable
 
       def_delegators(:@statistics, :total, :lines_of_code)
