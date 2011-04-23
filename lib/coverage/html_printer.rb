@@ -16,7 +16,7 @@ module Coverage
       @base_directory = Pathname.pwd
       @output_directory ||=  @base_directory + "coverage"
       FileUtils.mkdir_p(@output_directory)
-      @project_name ||= "test"
+      @project_name ||= @base_directory.basename
     end
 
     def print(result)
