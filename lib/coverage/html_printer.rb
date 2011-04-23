@@ -129,12 +129,18 @@ module Coverage
         @lines_of_code ||= @files.inject(0){|memo, detail| memo + detail.lines_of_code }
       end
 
+      def lines_of_covered_code
+        @lines_of_covered_code ||= @files.inject(0){|memo, detail| memo + detail.lines_of_covered_code }
+      end
+
       def total_coverage
-        coverage_bar(0)
+        coverage = "%0.2f" % [(lines_of_covered_code / total.to_f) * 100]
+        coverage_bar(coverage)
       end
 
       def code_coverage
-        coverage_bar(0)
+        coverage = "%0.2f" % [(lines_of_covered_code / lines_of_code.to_f) * 100]
+        coverage_bar(coverage)
       end
 
       private
@@ -151,7 +157,7 @@ module Coverage
       extend Forwardable
       include Utility
 
-      def_delegators(:@statistics, :total, :lines_of_code)
+      def_delegators(:@statistics, :total, :lines_of_code, :lines_of_covered_code)
       attr_reader :project_name, :page_title
 
       def initialize(path_settings, project_name, path, counts)
