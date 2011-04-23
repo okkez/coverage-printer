@@ -191,7 +191,11 @@ module Coverage
       end
 
       def label
-        @source.relative_path_from(@path_settings.output_directory).to_s.sub(/\A\.\.\//, '')
+        @label ||= @source.relative_path_from(@path_settings.output_directory).to_s.sub(/\A\.\.\//, '')
+      end
+
+      def link
+        %Q!<a href="#{html_filename}">#{label}</a>!
       end
 
       def html_filename
