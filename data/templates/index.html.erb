@@ -17,21 +17,21 @@
         </tr>
       </thead>
       <tbody>
-        <%- files.each do |file| -%>
+        <%- files.each do |detail| -%>
         <tr>
-          <td><%= file.label %></td>
-          <td><%= file.total %></td>
-          <td><%= file.lines_of_code %></td>
-          <td><%= file.total_coverage %></td>
-          <td><%= file.code_coverage %></td>
+          <td><%= detail.label %></td>
+          <td><%= detail.total %></td>
+          <td><%= detail.lines_of_code %></td>
+          <td><%= detail.total_coverage %></td>
+          <td><%= detail.code_coverage %></td>
         </tr>
         <%- end -%>
       </tbody>
       <tfooter>
         <tr>
           <td>Total</td>
-          <td><%= files.inject(0){|memo, file| memo + file.total } %></td>
-          <td><%= files.inject(0){|memo, file| memo + file.lines_of_code } %></td>
+          <td><%= files.inject(0){|memo, detail| memo + detail.total } %></td>
+          <td><%= files.inject(0){|memo, detail| memo + detail.lines_of_code } %></td>
           <td></td>
           <td></td>
         </tr>
