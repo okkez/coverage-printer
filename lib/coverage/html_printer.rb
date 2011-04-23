@@ -84,16 +84,6 @@ module Coverage
       install_files
     end
 
-    def print_detail(file)
-      erb = ERB.new(File.read(templates_directory + "detail.html.erb"), nil, '-')
-      html_filepath = output_directory + file.html_filename
-      erb.filename = html_filepath.to_s
-      FileUtils.mkdir_p(html_filepath.dirname)
-      File.open(html_filepath, "wb+") do |html|
-        html.puts(erb.result(binding))
-      end
-    end
-
     def print_index(files)
       erb = ERB.new(File.read(templates_directory + "index.html.erb"), nil, '-')
       erb.filename = "index.html"
