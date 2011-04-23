@@ -2,6 +2,8 @@
 <html lang="ja">
   <head>
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+    <%= stylesheet("reset", erb.filename) %>
+    <%= stylesheet("coverage", erb.filename) %>
     <title>C0 Coverage</title>
   </head>
   <body>
@@ -17,7 +19,7 @@
         </tr>
       </thead>
       <tbody>
-        <%- files.each do |detail| -%>
+        <%- @files.each do |detail| -%>
         <tr>
           <td><%= detail.label %></td>
           <td><%= detail.total %></td>
@@ -30,10 +32,10 @@
       <tfooter>
         <tr>
           <td>Total</td>
-          <td><%= files.inject(0){|memo, detail| memo + detail.total } %></td>
-          <td><%= files.inject(0){|memo, detail| memo + detail.lines_of_code } %></td>
-          <td></td>
-          <td></td>
+          <td><%= total %></td>
+          <td><%= lines_of_code %></td>
+          <td><%= total_coverage %></td>
+          <td><%= code_coverage %></td>
         </tr>
       </tfooter>
     </table>

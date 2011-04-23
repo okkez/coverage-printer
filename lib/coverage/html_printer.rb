@@ -78,16 +78,15 @@ module Coverage
         files << Detail.new(@path_settings, @project_name, path, counts)
       end
       files.each(&:print_file)
-      print_index(files)
-      # index = Index.new(files)
-      # index.print
+      index = Index.new(@path_settings, @project_name, files)
+      index.print_file
       install_files
     end
 
     def print_index(files)
       erb = ERB.new(File.read(templates_directory + "index.html.erb"), nil, '-')
       erb.filename = "index.html"
-      index_path = output_directory + "index.html"
+      index_path = @path_settings.output_directory + "index.html"
       File.open(index_path, "wb+") do |html|
         html.puts(erb.result(binding))
       end
@@ -103,7 +102,48 @@ module Coverage
     end
 
     class Index
-      def print
+      include Utility
+
+      attr_reader :project_name, :files
+
+      def initialize(path_settings, project_name, files)
+        @path_settings = path_settings
+        @project_name = project_name
+        @files = files
+      end
+
+      def print_file
+        erb = ERB.new(File.read(template_path), nil, '-')
+        index_path = @path_settings.output_directory + "index.html"
+        erb.filename = index_path.to_s
+        File.open(index_path, "wb+") do |html|
+          html.puts(erb.result(binding))
+        end
+      end
+
+      def total
+        @total ||= @files.inject(0){|memo, detail| memo + detail.total }
+      end
+
+      def lines_of_code
+        @lines_of_code ||= @files.inject(0){|memo, detail| memo + detail.lines_of_code }
+      end
+
+      def total_coverage
+        coverage_bar(0)
+      end
+
+      def code_coverage
+        coverage_bar(0)
+      end
+
+      private
+      def template_path
+        @path_settings.templates_directory + "index.html.erb"
+      end
+
+      def output_directory
+        @path_settings.output_directory
       end
     end
 
