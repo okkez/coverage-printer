@@ -17,8 +17,8 @@ module Coverage
       assert_equal(6, @statistics.lines_of_code)
     end
 
-    def test_lines_of_executed_code
-      assert_equal(3, @statistics.lines_of_executed_code)
+    def test_lines_of_covered_code
+      assert_equal(3, @statistics.lines_of_covered_code)
     end
 
     def test_total_coverage

@@ -17,14 +17,14 @@ module Coverage
     end
 
     def total_coverage
-      "%.2f" % [(lines_of_executed_code / total.to_f) * 100]
+      "%.2f" % [(lines_of_covered_code / total.to_f) * 100]
     end
 
     def code_coverage
-      "%.2f" % [(lines_of_executed_code / lines_of_code.to_f) * 100]
+      "%.2f" % [(lines_of_covered_code / lines_of_code.to_f) * 100]
     end
 
-    def lines_of_executed_code
+    def lines_of_covered_code
       counts.select{|count| count && count > 0 }.size
     end
   end
