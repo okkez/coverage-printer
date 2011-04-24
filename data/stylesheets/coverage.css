@@ -34,7 +34,12 @@ th, td {
 }
 
 div.code {
-  margin: 2.5% 5% 5% 2.5%;
+  margin: 2.5% 5% 2.5% 5%;
+  border: 1px solid #666666;
+}
+
+div.code > ol {
+  margin: 0% 0% 0% 1%;
 }
 
 div.bar-container {
