@@ -74,7 +74,7 @@ module Coverage
       files = []
       result.each do |path, counts|
         next unless target_files.include?(path)
-        next if Regexp.new("#{base_directory}/(?:test|spec)") =~ path
+        next if Regexp.new("#{base_directory}/(?:test|spec|vendor)") =~ path
         files << Detail.new(@path_settings, @project_name, path, counts)
       end
       files.sort_by!{|detail| detail.path }
