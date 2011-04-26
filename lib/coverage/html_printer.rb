@@ -77,6 +77,7 @@ module Coverage
         next if Regexp.new("#{base_directory}/(?:test|spec)") =~ path
         files << Detail.new(@path_settings, @project_name, path, counts)
       end
+      files.sort_by!{|detail| detail.path }
       files.each(&:print_file)
       index = Index.new(@path_settings, @project_name, files)
       index.print_file
@@ -158,7 +159,7 @@ module Coverage
       include Utility
 
       def_delegators(:@statistics, :total, :lines_of_code, :lines_of_covered_code)
-      attr_reader :project_name, :page_title
+      attr_reader :project_name, :page_title, :path
 
       def initialize(path_settings, project_name, path, counts)
         @path_settings = path_settings
