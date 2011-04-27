@@ -213,9 +213,6 @@ module Coverage
         coverage_bar(@statistics.code_coverage)
       end
 
-      def print
-      end
-
       private
       def template_path
         @path_settings.templates_directory + "detail.html.erb"
