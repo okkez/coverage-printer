@@ -8,11 +8,15 @@ CoveragePrinter - Format Coverage.result.
 
 == Install
 
-TODO.
+  $ gem install coverage-printer
 
 == Usage
 
-TODO.
+use with test-unit-2.3.0.
+
+  require 'test/unit/coverage'
+  require 'coverage/html_printer'
+  Test::Unit::Coverage.printer = Coverage::HTMLPrinter.new
 
 == License
 LGPLv2.1 or later.
