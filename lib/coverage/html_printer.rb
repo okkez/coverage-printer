@@ -84,15 +84,6 @@ module Coverage
       install_files
     end
 
-    def print_index(files)
-      erb = ERB.new(File.read(templates_directory + "index.html.erb"), nil, '-')
-      erb.filename = "index.html"
-      index_path = @path_settings.output_directory + "index.html"
-      File.open(index_path, "wb+") do |html|
-        html.puts(erb.result(binding))
-      end
-    end
-
     def install_files
       stylesheets_directory.each_child do |path|
         FileUtils.install(path, output_directory)
