@@ -78,9 +78,9 @@ module Coverage
         files << Detail.new(@path_settings, @project_name, path, counts)
       end
       files.sort_by!{|detail| detail.path }
-      files.each(&:print_file)
+      files.each(&:print)
       index = Index.new(@path_settings, @project_name, files)
-      index.print_file
+      index.print
       install_files
     end
 
@@ -113,7 +113,7 @@ module Coverage
         @files = files
       end
 
-      def print_file
+      def print
         erb = ERB.new(File.read(template_path), nil, '-')
         index_path = @path_settings.output_directory + "index.html"
         erb.filename = index_path.to_s
@@ -175,7 +175,7 @@ module Coverage
         end
       end
 
-      def print_file
+      def print
         erb = ERB.new(File.read(template_path), nil, '-')
         path = @path_settings.output_directory + html_filename
         erb.filename = path.to_s
